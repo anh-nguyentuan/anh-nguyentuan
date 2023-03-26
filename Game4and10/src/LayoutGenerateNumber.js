@@ -6,7 +6,7 @@ var LayoutGenerateNumberChild = ccui.Layout.extend({
 
  isOperatorMatch : true,
  textShow : "",
- visible1 :false,
+ visible :false,
  tnumber : 0,
 
  //this.isNumber : false,
@@ -16,7 +16,7 @@ var LayoutGenerateNumberChild = ccui.Layout.extend({
  	var textFile = new ccui.Text();
  	if(this.isOperatorMatch){
  		// show operator
- 		if(this.visible1){
+ 		if(this.visible){
  			var parentSize = parent.getContentSize();
  			var childSize = cc.size(parentSize.width* 0.1, parentSize.height);
  			this.setContentSize(childSize);

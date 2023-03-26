@@ -59,11 +59,11 @@ var HelloWorldLayer = cc.Layer.extend({
         objLayoutGenerateNumberChild.isOperatorMatch = true;
         objLayoutGenerateNumberChild.visible = true;
         objLayoutGenerateNumberChild.opertorMatch = OpertorMatch["Addition"]
-        objLayoutGenerateNumberChild.setTextNumberShow(this.sprite);
+        objLayoutGenerateNumberChild.setTextNumberShow(this);
 
         objLayoutGenerateNumberChild.setPosition(cc.p(0,size.height));
 
-        this.addChild(objLayoutGenerateNumberChil, 1);
+        this.addChild(objLayoutGenerateNumberChild, 10);
 
         return true;
     }
@@ -76,7 +76,3 @@ var HelloWorldScene = cc.Scene.extend({
         this.addChild(layer);
     }
 });
-
-
-
-
