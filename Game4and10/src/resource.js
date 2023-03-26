@@ -38,7 +38,14 @@ for (var i in res) {
 
 var MODE_GAME = [ "Mode3", "Mode4"];
 
-var OpertorMatch = ["Addition", "Subtraction" , "Multiplication", "Division"];
+const OpertorMatch = new Map([
+    ["None", ""],
+    ["Open Parenthesis", "("],
+    ["Addition", "+"],
+    ["Subtraction", "-"],
+    ["Multiplication", "x"],
+    ["Division", "/"],
+    ["Close Parenthesis", ")"]]);
 
 var GAME_CONFIG = [
     {
