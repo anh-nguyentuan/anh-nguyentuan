@@ -22,6 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+ const ResultMode4 = 10;
+ const ResultMode3 = 8;
+
 var res = {
     HelloWorld_png : "res/HelloWorld.png",
 };
@@ -30,3 +33,8 @@ var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
 }
+
+var MODE_GAME = [ "Mode3", "Mode4"];
+
+var OpertorMatch = ["Addition", "Subtraction" , "Multiplication", "Division"];
+
