@@ -25,6 +25,8 @@
  const ResultMode4 = 10;
  const ResultMode3 = 8;
 
+ var kZOderBackground = 0;
+
 var res = {
     HelloWorld_png : "res/HelloWorld.png",
 };
@@ -37,4 +39,23 @@ for (var i in res) {
 var MODE_GAME = [ "Mode3", "Mode4"];
 
 var OpertorMatch = ["Addition", "Subtraction" , "Multiplication", "Division"];
+
+var GAME_CONFIG = [
+    {
+        level : 1,
+        genenrateNumber : [1,2,3,4]
+
+    },
+    {
+        level : 2,
+        genenrateNumber : [2,2,3,4]
+    },
+    {
+        level : 3,
+        genenrateNumber : [5,2,3,4]
+    }
+];
+
+
+   
 
