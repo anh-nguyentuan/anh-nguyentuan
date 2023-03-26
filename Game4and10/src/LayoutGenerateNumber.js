@@ -1,17 +1,22 @@
-var LayoutGenerateNumberChild = cc.Layout().extend({
- this.isOperatorMatch : true,
- this.textShow : "",
- this.visible :false,
- this.number : 0,
+var LayoutGenerateNumberChild = ccui.Layout.extend({
+	
+ ctor :function(){
+ 	this._super();
+ },
+
+ isOperatorMatch : true,
+ textShow : "",
+ visible1 :false,
+ tnumber : 0,
 
  //this.isNumber : false,
- this.opertorMatch : "None"
+ opertorMatch : "None",
 
  setTextNumberShow : function(parent){
  	var textFile = new ccui.Text();
  	if(this.isOperatorMatch){
  		// show operator
- 		if(this.visible){
+ 		if(this.visible1){
  			var parentSize = parent.getContentSize();
  			var childSize = cc.size(parentSize.width* 0.1, parentSize.height);
  			this.setContentSize(childSize);
