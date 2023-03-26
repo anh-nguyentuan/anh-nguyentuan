@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Game4and10' target in the 'Game4and10' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+	#import <UIKit/UIKit.h>
+#endif
