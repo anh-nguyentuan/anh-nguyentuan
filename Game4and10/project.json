@@ -13,7 +13,7 @@
 
     "jsList" : [
         "src/resource.js",
-        "src/LayoutGenerateNumber.js",
+        "src/operatorLayout.js",
         "src/app.js"
     ]
 }
