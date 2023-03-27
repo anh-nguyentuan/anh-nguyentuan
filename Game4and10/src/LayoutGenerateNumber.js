@@ -6,7 +6,7 @@ var LayoutGenerateNumberChild = ccui.Layout.extend({
 
  isOperatorMatch : true,
  textShow : "",
- visible :false,
+ visibleObject :false,
  tnumber : 0,
 
  //this.isNumber : false,
@@ -16,15 +16,18 @@ var LayoutGenerateNumberChild = ccui.Layout.extend({
  	var textFile = new ccui.Text();
  	if(this.isOperatorMatch){
  		// show operator
- 		if(this.visible){
- 			var parentSize = parent.getContentSize();
- 			var childSize = cc.size(parentSize.width* 0.1, parentSize.height);
+ 		if(this.visibleObject){
+ 			var childSize = cc.size(parent.width, parent.height);
+			console.log('width : ' + parent.width + ' height ' + parent.height)
  			this.setContentSize(childSize);
 
- 			textFile.setText(OpertorMatch[this.opertorMatch]);
- 			textFile.setColor(cc.color.WHITE);
+ 			textFile.setText(OpertorMatch.get(this.opertorMatch));
+			// console.log('operator : ' + OpertorMatch.get(this.opertorMatch))
+ 			textFile.setColor(cc.color("#FFFF00"));
+			textFile.setContentSize(500);
+			// textFile.setContentSize(childSize);
 
- 			this.setBackGroundColor(cc.color.GRAY);
+ 			this.setColor(cc.color("#FF0000"));
  			this.addChild(textFile);
  		}
  		else{

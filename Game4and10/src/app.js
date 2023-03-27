@@ -40,7 +40,7 @@ var HelloWorldLayer = cc.Layer.extend({
         // 3. add your codes below...
         // add a label shows "Hello World"
         // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
+        var helloLabel = new cc.LabelTTF("", "Arial", 38);
         // position the label on the center of the screen
         helloLabel.x = size.width / 2;
         helloLabel.y = size.height / 2 + 200;
@@ -48,7 +48,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(helloLabel, 5);
 
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
+        this.sprite = new cc.Sprite();
         this.sprite.attr({
             x: size.width / 2,
             y: size.height / 2
@@ -57,11 +57,11 @@ var HelloWorldLayer = cc.Layer.extend({
 
         var objLayoutGenerateNumberChild = new LayoutGenerateNumberChild();
         objLayoutGenerateNumberChild.isOperatorMatch = true;
-        objLayoutGenerateNumberChild.visible = true;
-        objLayoutGenerateNumberChild.opertorMatch = OpertorMatch["Addition"]
-        objLayoutGenerateNumberChild.setTextNumberShow(this);
+        objLayoutGenerateNumberChild.visibleObject = true;
+        objLayoutGenerateNumberChild.opertorMatch = "Addition";
+        objLayoutGenerateNumberChild.setTextNumberShow(size);
 
-        objLayoutGenerateNumberChild.setPosition(cc.p(0,size.height));
+        objLayoutGenerateNumberChild.setPosition(cc.p(size.height/2,size.height/2));
 
         this.addChild(objLayoutGenerateNumberChild, 10);
 
