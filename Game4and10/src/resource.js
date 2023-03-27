@@ -38,7 +38,7 @@ for (var i in res) {
 
 var MODE_GAME = [ "Mode3", "Mode4"];
 
-const OpertorMatch = new Map([
+const OperatorMatch = new Map([
     ["None", ""],
     ["Open Parenthesis", "("],
     ["Addition", "+"],

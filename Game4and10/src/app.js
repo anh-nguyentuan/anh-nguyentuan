@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
+var OperatorDisplay = [];
 
 var HelloWorldLayer = cc.Layer.extend({
     sprite:null,
@@ -55,17 +55,20 @@ var HelloWorldLayer = cc.Layer.extend({
         });
         this.addChild(this.sprite, 0);
 
-        var objLayoutGenerateNumberChild = new LayoutGenerateNumberChild();
-        objLayoutGenerateNumberChild.isOperatorMatch = true;
-        objLayoutGenerateNumberChild.visibleObject = true;
-        objLayoutGenerateNumberChild.opertorMatch = "Addition";
-        objLayoutGenerateNumberChild.setTextNumberShow(size);
-
-        objLayoutGenerateNumberChild.setPosition(cc.p(size.height/2,size.height/2));
-
-        this.addChild(objLayoutGenerateNumberChild, 10);
-
         return true;
+    },
+
+
+    createLayoutOperator : function()
+    {
+        var objOperatorLayout = new operatorLayout();
+        for (let [key, value] of OperatorMatch) {
+                
+                 objOperatorLayout.opertorMatch = value;
+                 OperatorDisplay.push(objOperatorLayout);
+            }
+
+            
     }
 });
 
