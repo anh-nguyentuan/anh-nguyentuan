@@ -16,14 +16,16 @@ var operatorLayout = ccui.Layout.extend({
  	var textFile = new ccui.Text();
  		// show operator
  		if(this.visibleOperator){
- 			var childSize = cc.size(parent.width/scaleWith, parent.height/scaleHeight);
+ 			var childSize = cc.size(parent.width/this.scaleWith, parent.height/this.scaleHeight);
 			console.log('width : ' + parent.width + ' height ' + parent.height)
  			this.setContentSize(childSize);
 
  			textFile.setText(OperatorMatch.get(this.opertorMatch));
+			 console.log('aaaa' +OperatorMatch.get(this.opertorMatch))
 			textFile.setContentSize(childSize); // đặt kích thước cho Text
 			textFile.setPosition(cc.p(0, 0)); // đặt vị trí cho Text trong Layout
  			textFile.setColor(cc.color("#FFFF00"));
+			textFile.setFontSize(30);
 			// textFile.setContentSize(childSize);
  			this.addChild(textFile);
  		}

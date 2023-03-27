@@ -55,20 +55,31 @@ var HelloWorldLayer = cc.Layer.extend({
         });
         this.addChild(this.sprite, 0);
 
+        this.createLayoutOperator()
+
         return true;
     },
 
 
     createLayoutOperator : function()
     {
+        var size = cc.winSize;
         var objOperatorLayout = new operatorLayout();
         for (let [key, value] of OperatorMatch) {
                 
-                 objOperatorLayout.opertorMatch = value;
+                 objOperatorLayout.opertorMatch = key;
+                 console.log(' value: ' +  key)
                  OperatorDisplay.push(objOperatorLayout);
+
+              
             }
 
-            
+            console.log(' OperatorDisplay: ' +  OperatorDisplay[1].opertorMatch)
+            OperatorDisplay[1].x = size/2;
+            OperatorDisplay[1].visibleOperator = true;
+            OperatorDisplay[1].y = size/2 - 200;
+            OperatorDisplay[1].showDisplayOperator(size);
+            this.addChild(OperatorDisplay[1],10);
     }
 });
 
