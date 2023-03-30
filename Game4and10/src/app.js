@@ -21,7 +21,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-var OperatorDisplay = [];
+var arrOperatorDisplay = [];
+var arrNumber = ["None", "1","None", "2","None", "3","None", "4","None"];
+
+function isNumeric(val) {
+    return /^-?\d+$/.test(val);
+}
 
 var HelloWorldLayer = cc.Layer.extend({
     sprite:null,
@@ -60,26 +65,34 @@ var HelloWorldLayer = cc.Layer.extend({
         return true;
     },
 
+    onEnter : function(){
+        this._super();
+    }
+
+
 
     createLayoutOperator : function()
     {
+        var sizeX = 0;
         var size = cc.winSize;
-        var objOperatorLayout = new operatorLayout();
-        for (let [key, value] of OperatorMatch) {
-                
-                 objOperatorLayout.opertorMatch = key;
-                 console.log(' value: ' +  key)
-                 OperatorDisplay.push(objOperatorLayout);
+ 
+          var sizeX = 0;
+          var size = cc.winSize;
+          for(var index = 0; index < operatorConfig.length; index++){
+              var objOperatorMatch  = new OperatorMatch();
+              objOperatorMatch.operatorSign = operatorConfig[index];
+              objOperatorMatch.setFontSize(18);
+              objOperatorMatch.setFontName("Arial");
+              objOperatorMatch.setString(operatorConfig[index])
+              objOperatorMatch.setColor(cc.color("#FFFF00"));
+              sizeX += 30;
+              objOperatorMatch.x = (size.width / 6) + sizeX;
+              objOperatorMatch.y = size.height / 3 -100;
+   
+              arrOperatorDisplay.push(objOperatorMatch);
 
-              
-            }
-
-            console.log(' OperatorDisplay: ' +  OperatorDisplay[1].opertorMatch)
-            OperatorDisplay[1].x = size/2;
-            OperatorDisplay[1].visibleOperator = true;
-            OperatorDisplay[1].y = size/2 - 200;
-            OperatorDisplay[1].showDisplayOperator(size);
-            this.addChild(OperatorDisplay[1],10);
+              this.addChild(objOperatorMatch);
+          }
     }
 });
 

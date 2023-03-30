@@ -38,14 +38,17 @@ for (var i in res) {
 
 var MODE_GAME = [ "Mode3", "Mode4"];
 
-const OperatorMatch = new Map([
-    ["None", ""],
-    ["Open Parenthesis", "("],
-    ["Addition", "+"],
-    ["Subtraction", "-"],
-    ["Multiplication", "x"],
-    ["Division", "/"],
-    ["Close Parenthesis", ")"]]);
+const Ope = {
+    None : "",
+    ADD : "+",
+    SUB : "-",
+    MUL : "x",
+    DIV : "/",
+    OPEN : "(",
+    CLOSE : ")",
+}
+
+const operatorConfig = [Ope.OPEN, Ope.ADD, Ope.SUB, Ope.MUL, Ope.DIV, Ope.CLOSE];
 
 var GAME_CONFIG = [
     {
