@@ -1,7 +1,8 @@
-var OperatorMatch = cc.LabelTTF.extend({
+var OperatorMatch = cc.Sprite.extend({
 
 ctor : function(position){
 	this._super();
+	this.handleMouseIn();
 },	
 operatorSign :  Ope.None,
 isDisable : false,
@@ -26,7 +27,7 @@ handleMouseIn :function(OperatorMatchCaculate){
 		cc.eventManager.addListener({
 		event: cc.EventListener.MOUSE,
 		onMouseMove: function(event) {
-			console.log('a2222222222222222')
+			console.log('a2222222222222222'+ this.getPosition())
 			// Nếu đang kéo chuột và đối tượng được chọn
 			if (this.isDragging) {
 				// Tính toán khoảng cách di chuyển
@@ -34,10 +35,12 @@ handleMouseIn :function(OperatorMatchCaculate){
 	
 				// Di chuyển đối tượng tương ứng với khoảng cách di chuyển
 				var currentPosition = this.getPosition();
+
+				console.log('000' + this.getPosition()) 
 				this.setPosition(cc.pAdd(this.currentPosition, delta));
 	
 				// Cập nhật vị trí chuột
-				//mouseDownPosition = event.getLocation();
+				mouseDownPosition = event.getLocation();
 			}
 		}
 	}, this);
@@ -48,12 +51,6 @@ handleMouseIn :function(OperatorMatchCaculate){
 		onMouseUp: function(event) {
 			console.log('a333333333333333333333333')
 			this.isDragging = false;
-
-			if(cc.rectContainsPoint(this.getBoundingBox(), OperatorMatchCaculate.getBoundingBox())){
-				OperatorMatchCaculate.operatorSign = this.operatorSign;
-			}
-
-			// this.setPosition(this.currentPosition);
 		}
 		}, this);
 }

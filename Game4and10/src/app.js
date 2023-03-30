@@ -67,7 +67,7 @@ var HelloWorldLayer = cc.Layer.extend({
 
     onEnter : function(){
         this._super();
-    }
+    },
 
 
 
@@ -81,10 +81,13 @@ var HelloWorldLayer = cc.Layer.extend({
           for(var index = 0; index < operatorConfig.length; index++){
               var objOperatorMatch  = new OperatorMatch();
               objOperatorMatch.operatorSign = operatorConfig[index];
-              objOperatorMatch.setFontSize(18);
-              objOperatorMatch.setFontName("Arial");
-              objOperatorMatch.setString(operatorConfig[index])
-              objOperatorMatch.setColor(cc.color("#FFFF00"));
+              var label = new cc.LabelTTF();
+              label.setFontSize(18);
+              label.setFontName("Arial");
+              label.setString(objOperatorMatch.operatorSign)
+              label.setColor(cc.color("#FFFF00"));
+              objOperatorMatch.addChild(label);
+
               sizeX += 30;
               objOperatorMatch.x = (size.width / 6) + sizeX;
               objOperatorMatch.y = size.height / 3 -100;
