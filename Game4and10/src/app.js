@@ -25,183 +25,258 @@
 var arrNumber = [Ope.None, "1", Ope.None, Ope.None, "2", Ope.None, Ope.None, Ope.None, "3", Ope.None, Ope.None, "4", Ope.None];
 
 function isNumeric(val) {
-    return /^-?\d+$/.test(val);
+  return /^-?\d+$/.test(val);
 }
 
 var HelloWorldLayer = cc.Layer.extend({
-    arrOperatorDisplay : [],
-    arrShowCaculate : [],
-    sprite:null,
-    ctor:function () {
-        //////////////////////////////
-        // 1. super init first
-        this._super();
+  arrOperatorDisplay: [],
+  arrShowCaculate: [],
+  sprite: null,
 
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
-        var size = cc.winSize;
+  ctor: function () {
+    //////////////////////////////
+    // 1. super init first
+    this._super();
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("", "Arial", 38);
-        // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.height / 2 + 200;
-        // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+    /////////////////////////////
+    // 2. add a menu item with "X" image, which is clicked to quit the program
+    //    you may modify it.
+    // ask the window size
+    var size = cc.winSize;
 
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite();
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2
-        });
-        this.addChild(this.sprite, 0);
-        this.creatLayoutCalculate();
-        this.createLayoutOperator();
+    /////////////////////////////
+    // 3. add your codes below...
+    // add a label shows "Hello World"
+    // create and initialize a label
+    var helloLabel = new cc.LabelTTF("", "Arial", 38);
+    // position the label on the center of the screen
+    helloLabel.x = size.width / 2;
+    helloLabel.y = size.height / 2 + 200;
+    // add the label as a child to this layer
+    this.addChild(helloLabel, 5);
 
-        return true;
-    },
+    // add "HelloWorld" splash screen"
+    this.sprite = new cc.Sprite();
+    this.sprite.attr({
+      x: size.width / 2,
+      y: size.height / 2
+    });
+    this.addChild(this.sprite, 0);
+    this.creatLayoutCalculate();
+    this.createLayoutOperator();
 
-    onEnter : function(){
-        this._super();
-    },
+    return true;
+  },
 
+  onEnter: function () {
+    this._super();
+    cc.eventManager.addListener({
+      event: cc.EventListener.TOUCH_ONE_BY_ONE,
+      swallowTouches: true,
+      onTouchBegan: this.onTouchBegan,
+      onTouchMoved: this.onTouchMoved,
+      onTouchEnded: this.onTouchEnded
+    }, this);
 
-    createLayoutOperator : function()
-    { 
-          var sizeX = 0;
-          var size = cc.winSize;
-          for(var index = 0; index < operatorConfig.length; index++){
-
-            console.log('createLayoutOperator = ' + index);
-              var objOperatorMatch  = new OperatorMatch(this);
-              objOperatorMatch.operatorSign = operatorConfig[index];
-              var label = new cc.LabelTTF();
-              label.setFontSize(18);
-              label.setFontName("Arial");
-              label.setString(objOperatorMatch.operatorSign)
-              label.setColor(cc.color("#FFFF00"));
-              objOperatorMatch.addChild(label);
-
-              sizeX += 30;
-              objOperatorMatch.x = (size.width / 6) + sizeX;
-              objOperatorMatch.y = size.height / 3 -100;
-
-              this.arrOperatorDisplay.push(objOperatorMatch);
-              this.addChild(this.arrOperatorDisplay[index]);
-          }
-    },
+  },
 
 
-    creatLayoutCalculate : function(){
-        var sizeX = 0;
-        var size = cc.winSize;
-        for(var index = 0; index < arrNumber.length; index++){
-            if(index == 1 || index == 4 || index == 8 || index == 11){
-
-                console.log('creatLayoutCalculate number = ' + index);
-                var objNumeberMatch = new NumeberMatch(this)
-
-                var labelNumber = new cc.LabelTTF();
-                labelNumber.setFontSize(18);
-                labelNumber.setFontName("Arial");
-                labelNumber.setString(arrNumber[index])
-                labelNumber.setColor(cc.color("#FFFF00"));
-                objNumeberMatch.addChild(labelNumber);
-
-                sizeX += 30;
-                objNumeberMatch.x = (size.width / 6) + sizeX;
-                objNumeberMatch.y = size.height / 2.5;
-          
-                this.arrShowCaculate.push(objNumeberMatch);
-                this.addChild(this.arrShowCaculate[index]);
-            }
-            else{
-
-                console.log('creatLayoutCalculate Operartor = ' + index); 
-                var objOperatorMatch  = new OperatorMatch(this);
-                objOperatorMatch.operatorSign = arrNumber[index];
-                var label = new cc.LabelTTF();
-                label.setFontSize(18);
-                label.setFontName("Arial");
-                label.setString(objOperatorMatch.operatorSign)
-                label.setColor(cc.color("#FFFF00"));
-                objOperatorMatch.addChild(label);
-
-                sizeX += 30;
-                objOperatorMatch.x = (size.width / 6) + sizeX;
-                objOperatorMatch.y = size.height / 2.5;
-
-                this.arrShowCaculate.push(objOperatorMatch);
-                this.addChild(this.arrShowCaculate[index]);
-            }
+  onTouchBegan: function (touch, event) {
+    var target = event.getCurrentTarget();
+    // Kiểm tra nếu con trỏ chuột đang nằm trên đối tượng
+    for (var index = 0; operatorConfig.length; index++) {
+      if (target == this.arrOperatorDisplay[index]) {
+        if (cc.rectContainsPoint(this.arrOperatorDisplay[index].getBoundingBox(), touch.getLocation())) {
+          var cloneSpirte = this.arrOperatorDisplay[index].clone();
+          this.addChild(this.cloneSpirte);
+          this.arrOperatorDisplay[index].isDragging = true;
+          this.arrOperatorDisplay[index].mouseDownPosition = touch.getLocation();
+          console.log('mouseDownPosition ' + touch.getLocation());
+          return true;
         }
-    },
-
-
-    // tinh toan ket qua
-    calculatResult : function(expression){
-        let operands = [];
-        let operators = [];
-        let current = "";
-        for (let i = 0; i < expression.length; i++) {
-          if (expression[i] == "(") {
-            let count = 1;
-            let j = i + 1;
-            while (count > 0 && j < expression.length) {
-              if (expression[j] == "(") {
-                count++;
-              } else if (expression[j] == ")") {
-                count--;
-              }
-              j++;
-            }
-            operands.push(calculate(expression.substring(i + 1, j - 1)));
-            i = j - 1;
-          } else if (expression[i] == "+" || expression[i] == "-" || expression[i] == "*" || expression[i] == "/") {
-            operators.push(expression[i]);
-            operands.push(parseFloat(current));
-            current = "";
-          } else {
-            current += expression[i];
-          }
-        }
-        operands.push(parseFloat(current));
-      
-        // Tính toán kết quả
-        while (operators.length > 0) {
-          let operator = operators.pop();
-          let operand2 = operands.pop();
-          let operand1 = operands.pop();
-          let result;
-          if (operator == "+") {
-            result = operand1 + operand2;
-          } else if (operator == "-") {
-            result = operand1 - operand2;
-          } else if (operator == "*") {
-            result = operand1 * operand2;
-          } else if (operator == "/") {
-            result = operand1 / operand2;
-          }
-          operands.push(result);
-        }
-      
-        return operands[0];
+      }
     }
+
+    return true;
+
+  },
+
+  onTouchMoved: function (touch, event) {
+    var target = event.getCurrentTarget();
+    // Kiểm tra nếu con trỏ chuột đang nằm trên đối tượng
+    for (var index = 0; operatorConfig.length; index++) {
+      if (target == this.arrOperatorDisplay[index]) {
+        // Nếu đang kéo chuột và đối tượng được chọn
+        if (this.arrOperatorDisplay[index].isDragging) {
+          // Tính toán khoảng cách di chuyển
+          var delta = cc.pSub(touch.getLocation(), this.arrOperatorDisplay[index].mouseDownPosition);
+
+          // Di chuyển đối tượng tương ứng với khoảng cách di chuyển
+          var currentPosition = this.arrOperatorDisplay[index].getPosition();
+
+          this.setPosition(cc.pAdd(currentPosition, delta));
+
+          // Cập nhật vị trí chuột
+          mouseDownPosition = touch.getLocation();
+
+        }
+      }
+    }
+
+
+    return true;
+  },
+  onTouchEnded: function (touch, event) {
+    var target = event.getCurrentTarget();
+    for (var index = 0; operatorConfig.length; index++) {
+      if (target == this.arrOperatorDisplay[index]) {
+        this.arrOperatorDisplay[index].isDragging = false;
+      }
+
+
+    }
+  },
+
+
+  createLayoutOperator: function () {
+    var sizeX = 0;
+    var size = cc.winSize;
+    for (var index = 0; index < operatorConfig.length; index++) {
+
+      console.log('createLayoutOperator = ' + index);
+      var objOperatorMatch = new OperatorMatch(res.obj_png, this);
+      objOperatorMatch.operatorSign = operatorConfig[index];
+      var label = new cc.LabelTTF();
+      label.setFontSize(18);
+      label.setFontName("Arial");
+      label.setString(objOperatorMatch.operatorSign)
+      label.setColor(cc.color("#FFFF00"));
+
+      objOperatorMatch.addChild(label);
+      label.setAnchorPoint(cc.p(0.5, 0.5));
+      label.setPosition(objOperatorMatch.getContentSize().width / 2, objOperatorMatch.getContentSize().height / 2);
+
+      sizeX += 30;
+      objOperatorMatch.x = (size.width / 6) + sizeX;
+      objOperatorMatch.y = size.height / 3 - 100;
+
+      this.arrOperatorDisplay.push(objOperatorMatch);
+      this.addChild(this.arrOperatorDisplay[index]);
+    }
+  },
+
+
+  creatLayoutCalculate: function () {
+    var sizeX = 0;
+    var size = cc.winSize;
+    for (var index = 0; index < arrNumber.length; index++) {
+      if (index == 1 || index == 4 || index == 8 || index == 11) {
+
+        console.log('creatLayoutCalculate number = ' + index);
+        var objNumeberMatch = new NumeberMatch(this)
+
+        var labelNumber = new cc.LabelTTF();
+        labelNumber.setFontSize(18);
+        labelNumber.setFontName("Arial");
+        labelNumber.setString(arrNumber[index])
+        labelNumber.setColor(cc.color("#FFFF00"));
+        objNumeberMatch.addChild(labelNumber);
+
+        sizeX += 30;
+        objNumeberMatch.x = (size.width / 6) + sizeX;
+        objNumeberMatch.y = size.height / 2.5;
+
+        this.arrShowCaculate.push(objNumeberMatch);
+        this.addChild(this.arrShowCaculate[index]);
+      }
+      else {
+
+        console.log('creatLayoutCalculate Operartor = ' + index);
+        var objOperatorMatch = new OperatorMatch(this);
+        objOperatorMatch.operatorSign = arrNumber[index];
+        var label = new cc.LabelTTF();
+        label.setFontSize(18);
+        label.setFontName("Arial");
+        label.setString(objOperatorMatch.operatorSign)
+        label.setColor(cc.color("#FFFF00"));
+        objOperatorMatch.addChild(label);
+
+        sizeX += 30;
+        objOperatorMatch.x = (size.width / 6) + sizeX;
+        objOperatorMatch.y = size.height / 2.5;
+
+        //if(this.is)
+
+        this.arrShowCaculate.push(objOperatorMatch);
+        this.addChild(this.arrShowCaculate[index]);
+      }
+    }
+  },
+
+
+  // tinh toan ket qua
+  calculatResult: function (expression) {
+    let operands = [];
+    let operators = [];
+    let current = "";
+    for (let i = 0; i < expression.length; i++) {
+      if (expression[i] == Ope.OPEN) {
+        let count = 1;
+        let j = i + 1;
+        while (count > 0 && j < expression.length) {
+          if (expression[j] == Ope.OPEN) {
+            count++;
+          } else if (expression[j] == Ope.CLOSE) {
+            count--;
+          }
+          j++;
+        }
+        operands.push(calculate(expression.substring(i + 1, j - 1)));
+        i = j - 1;
+      } else if (expression[i] == Ope.ADD || expression[i] == Ope.SUB || expression[i] == Ope.DIV) {
+        operators.push(expression[i]);
+        operands.push(parseFloat(current));
+        current = "";
+      } else if (expression[i] == Ope.MUL) {
+        operators.push("*");
+        operands.push(parseFloat(current));
+        current = "";
+
+      } else {
+        current += expression[i];
+      }
+    }
+    operands.push(parseFloat(current));
+
+    // Tính toán kết quả
+    while (operators.length > 0) {
+      let operator = operators.pop();
+      let operand2 = operands.pop();
+      let operand1 = operands.pop();
+      let result;
+      if (operator == "+") {
+        result = operand1 + operand2;
+      } else if (operator == "-") {
+        result = operand1 - operand2;
+      } else if (operator == "*") {
+        result = operand1 * operand2;
+      } else if (operator == "/") {
+        result = operand1 / operand2;
+      }
+      operands.push(result);
+    }
+
+    return operands[0];
+  }
 });
 
 
 
 
 var HelloWorldScene = cc.Scene.extend({
-    onEnter:function () {
-        this._super();
-        var layer = new HelloWorldLayer();
-        this.addChild(layer);
-    }
+  onEnter: function () {
+    this._super();
+    var layer = new HelloWorldLayer();
+    this.addChild(layer);
+  }
 });

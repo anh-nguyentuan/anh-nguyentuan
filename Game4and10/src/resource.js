@@ -29,6 +29,7 @@
 
 var res = {
     HelloWorld_png : "res/HelloWorld.png",
+    obj_png : "res/Obj.png",
 };
 
 var g_resources = [];
