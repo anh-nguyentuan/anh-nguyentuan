@@ -9,6 +9,10 @@ controlLogicLayer : null,
 ctor : function(strImage, ctrlLayer){
 	this._super(strImage);
 	this.controlLogicLayer = ctrlLayer;
+	if(this.operatorSign == Ope.None)
+	{
+		this.visible = false
+	}
 },	
 
 onEnter :function(){

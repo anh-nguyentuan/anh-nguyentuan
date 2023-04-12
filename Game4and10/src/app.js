@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 var arrNumber = [Ope.None, "1", Ope.None, Ope.None, "2", Ope.None, Ope.None, Ope.None, "3", Ope.None, Ope.None, "4", Ope.None];
+var arrFillOpertor = [0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 function isNumeric(val) {
   return /^-?\d+$/.test(val);
@@ -73,30 +74,31 @@ var HelloWorldLayer = cc.Layer.extend({
     cc.eventManager.addListener({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,
-      onTouchBegan: this.onTouchBegan,
-      onTouchMoved: this.onTouchMoved,
-      onTouchEnded: this.onTouchEnded
+      onTouchBegan: this.onTouchBegan.bind(this),
+      onTouchMoved: this.onTouchMoved.bind(this),
+      onTouchEnded: this.onTouchEnded.bind(this)
     }, this);
-
   },
 
 
   onTouchBegan: function (touch, event) {
     var target = event.getCurrentTarget();
-    // Kiểm tra nếu con trỏ chuột đang nằm trên đối tượng
-    for (var index = 0; operatorConfig.length; index++) {
-      if (target == this.arrOperatorDisplay[index]) {
+
+    if (target === this) {
+      // Kiểm tra nếu con trỏ chuột đang nằm trên đối tượng
+      for (var index = 0; index < operatorConfig.length; index++) {
+
+
+        console.log('AnhNT189 ')
+
         if (cc.rectContainsPoint(this.arrOperatorDisplay[index].getBoundingBox(), touch.getLocation())) {
-          var cloneSpirte = this.arrOperatorDisplay[index].clone();
-          this.addChild(this.cloneSpirte);
+          // var cloneSpirte = this.arrOperatorDisplay[0].clone();
+          // this.addChild(this.cloneSpirte);
           this.arrOperatorDisplay[index].isDragging = true;
           this.arrOperatorDisplay[index].mouseDownPosition = touch.getLocation();
-          console.log('mouseDownPosition ' + touch.getLocation());
-          return true;
         }
       }
     }
-
     return true;
 
   },
@@ -104,32 +106,35 @@ var HelloWorldLayer = cc.Layer.extend({
   onTouchMoved: function (touch, event) {
     var target = event.getCurrentTarget();
     // Kiểm tra nếu con trỏ chuột đang nằm trên đối tượng
-    for (var index = 0; operatorConfig.length; index++) {
-      if (target == this.arrOperatorDisplay[index]) {
-        // Nếu đang kéo chuột và đối tượng được chọn
-        if (this.arrOperatorDisplay[index].isDragging) {
-          // Tính toán khoảng cách di chuyển
-          var delta = cc.pSub(touch.getLocation(), this.arrOperatorDisplay[index].mouseDownPosition);
+    if (target == this) {
 
-          // Di chuyển đối tượng tương ứng với khoảng cách di chuyển
-          var currentPosition = this.arrOperatorDisplay[index].getPosition();
+      this.dragOperationOpen(touch);
+      // for (var index = 0; index < operatorConfig.length; index++) {
 
-          this.setPosition(cc.pAdd(currentPosition, delta));
+      //   // Nếu đang kéo chuột và đối tượng được chọn
+      //   if (this.arrOperatorDisplay[index].isDragging) {
+      //     // Tính toán khoảng cách di chuyển
+      //     var delta = cc.pSub(touch.getLocation(), this.arrOperatorDisplay[index].mouseDownPosition);
 
-          // Cập nhật vị trí chuột
-          mouseDownPosition = touch.getLocation();
+      //     // Di chuyển đối tượng tương ứng với khoảng cách di chuyển
+      //     var currentPosition = this.arrOperatorDisplay[index].getPosition();
 
-        }
-      }
+      //     this.arrOperatorDisplay[index].setPosition(cc.pAdd(currentPosition, delta));
+
+      //     // Cập nhật vị trí chuột
+      //     this.arrOperatorDisplay[index].mouseDownPosition = touch.getLocation();
+
+      //   }
+      // }
     }
-
 
     return true;
   },
   onTouchEnded: function (touch, event) {
     var target = event.getCurrentTarget();
-    for (var index = 0; operatorConfig.length; index++) {
-      if (target == this.arrOperatorDisplay[index]) {
+    if (target === this) {
+      for (var index = 0; index < operatorConfig.length; index++) {
+
         this.arrOperatorDisplay[index].isDragging = false;
       }
 
@@ -146,6 +151,7 @@ var HelloWorldLayer = cc.Layer.extend({
       console.log('createLayoutOperator = ' + index);
       var objOperatorMatch = new OperatorMatch(res.obj_png, this);
       objOperatorMatch.operatorSign = operatorConfig[index];
+      objOperatorMatch.visible = true;
       var label = new cc.LabelTTF();
       label.setFontSize(18);
       label.setFontName("Arial");
@@ -192,7 +198,7 @@ var HelloWorldLayer = cc.Layer.extend({
       else {
 
         console.log('creatLayoutCalculate Operartor = ' + index);
-        var objOperatorMatch = new OperatorMatch(this);
+        var objOperatorMatch = new OperatorMatch(res.obj_png, this);
         objOperatorMatch.operatorSign = arrNumber[index];
         var label = new cc.LabelTTF();
         label.setFontSize(18);
@@ -205,7 +211,6 @@ var HelloWorldLayer = cc.Layer.extend({
         objOperatorMatch.x = (size.width / 6) + sizeX;
         objOperatorMatch.y = size.height / 2.5;
 
-        //if(this.is)
 
         this.arrShowCaculate.push(objOperatorMatch);
         this.addChild(this.arrShowCaculate[index]);
@@ -267,7 +272,75 @@ var HelloWorldLayer = cc.Layer.extend({
     }
 
     return operands[0];
+  },
+
+  checkDragOperationOpen: function () {
+    if (cc.rectIntersectsRect(this.arrOperatorDisplay[0].getBoundingBox(), this.arrShowCaculate[0])) {
+      return 0;
+    }
+
+    else if (cc.rectIntersectsRect(this.arrOperatorDisplay[0].getBoundingBox(), this.arrShowCaculate[3])) {
+      return 3;
+    }
+    else if (cc.rectIntersectsRect(this.arrOperatorDisplay[0].getBoundingBox(), this.arrShowCaculate[7])) {
+      return 7;
+    }
+    else {
+      return -1;
+    }
+  },
+
+  dragOperationOpen: function (touch) {
+    if (this.arrOperatorDisplay[0].isDragging) {
+
+      // Tính toán khoảng cách di chuyển
+      var delta = cc.pSub(touch.getLocation(), this.arrOperatorDisplay[0].mouseDownPosition);
+
+      // Di chuyển đối tượng tương ứng với khoảng cách di chuyển
+      var currentPosition = this.arrOperatorDisplay[0].getPosition();
+
+      this.arrOperatorDisplay[0].setPosition(cc.pAdd(currentPosition, delta));
+
+      // Cập nhật vị trí chuột
+      this.arrOperatorDisplay[0].mouseDownPosition = touch.getLocation();
+      //  check Drag Operator Open
+      var posittionDragOpen = this.checkDragOperationOpen()
+      if (posittionDragOpen != -1) {
+      this.arrShowCaculate[posittionDragOpen].visible = true;
+      this.arrShowCaculate[posittionDragOpen].operatorSign = Ope.OPEN;
+      var label = new cc.LabelTTF();
+      label.setFontSize(18);
+      label.setFontName("Arial");
+      label.setString(this.arrShowCaculate[posittionDragOpen].operatorSign)
+      label.setColor(cc.color("#FFFF00"));
+
+      this.arrShowCaculate[posittionDragOpen].addChild(label);
+      label.setAnchorPoint(cc.p(0.5, 0.5));
+      label.setPosition(this.arrShowCaculate[posittionDragOpen].getContentSize().width / 2, this.arrShowCaculate[posittionDragOpen].getContentSize().height / 2);
+      arrFillOpertor[posittionDragOpen] = 1;
+
+      }else{
+
+      }
+
+    }
+  },
+  checkDragOperationMatch : function(){
+    for(var index = 1; index < Ope.length - 1;  index ++ ){
+      for( var index  in [2, 6, 10]){
+        if(cc.rectIntersectsRect(this.arrOperatorDisplay[index].getBoundingBox(), this.arrShowCaculate[index])){
+          return [index, indexX];
+        }
+      }
+    }
+
+    return 
+  },
+
+  DragOperationMatch : function(){
+    
   }
+
 });
 
 
