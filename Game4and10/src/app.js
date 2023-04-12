@@ -334,11 +334,24 @@ var HelloWorldLayer = cc.Layer.extend({
       }
     }
 
-    return 
+    return null
   },
 
   DragOperationMatch : function(){
-    
+    var pairDragOperation = this.checkDragOperationMatch();
+    if(pairDragOperation != null){
+      // Tính toán khoảng cách di chuyển
+      var delta = cc.pSub(touch.getLocation(), this.arrOperatorDisplay[pairDragOperation[0]].mouseDownPosition);
+
+      // Di chuyển đối tượng tương ứng với khoảng cách di chuyển
+      var currentPosition = this.arrOperatorDisplay[pairDragOperation[0]].getPosition();
+
+      this.arrOperatorDisplay[pairDragOperation[0]].setPosition(cc.pAdd(currentPosition, delta));
+
+      // Cập nhật vị trí chuột
+      this.arrOperatorDisplay[pairDragOperation[0]].mouseDownPosition = touch.getLocation();
+      //  check Drag Operator Open
+    }
   }
 
 });
